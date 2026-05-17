@@ -13,6 +13,11 @@ app.get('/get/messages', (req, res) => {
   res.json(dataMessages)
 })
 
+app.post('/post/messages', (req, res) => {
+  const newC = req.body
+  dataMessages.push(newC)
+})
+
 app.listen(port, () => {
   console.log(`Chat app running on http://localhost:${port}`)
 })

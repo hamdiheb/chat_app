@@ -1,7 +1,26 @@
-const dataMessages = []
-function displayCon() {
-  const messagesSection = document.querySelector('.main_chat')
+const api = 'http://localhost'
+const port = 3000
 
+async function fetchCon() {
+  const req = await fetch(`${api}:${port}/get/messages`)
+  const res = await req.json()
+  return res
+}
+
+async function postCon(data) {
+  const req = await fetch(`${api}:${port}/post/messages`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+}
+
+function displayCon(dataMessages) {
+  const messagesSection = document.querySelector('.main_chat')
+  messagesSection.innerHTML = ''
   dataMessages.forEach((element) => {
     const message_container = document.createElement('div')
     const message_text = document.createElement('p')
@@ -14,7 +33,7 @@ function displayCon() {
   })
 }
 
-function sendMessage() {
+function sendMessage(dataMessages) {
   const sendButton = document.querySelector('.main_chat_send_button')
   const text = document.querySelector('.main_chat_textarea')
   const user = document.querySelector('.main_user_name')
@@ -23,14 +42,15 @@ function sendMessage() {
       user: user.value,
       message: text.value,
     }
-    dataMessages.push(data)
-    displayCon()
-    event.preventDefault()
+    postCon(data)
+    main()
   })
 }
 
-function main() {
-  sendMessage()
+async function main() {
+  const dataMessages = await fetchCon()
+  displayCon(dataMessages)
+  sendMessage(dataMessages)
 }
 
 main()
