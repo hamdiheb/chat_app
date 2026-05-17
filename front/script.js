@@ -1,14 +1,13 @@
-const api = 'http://localhost'
-const port = 3000
+const api = 'http://o14f4eop03n34t6rjrcwqpq7.178.105.39.91.sslip.io'
 
 async function fetchCon() {
-  const req = await fetch(`${api}:${port}/get/messages`)
+  const req = await fetch(`${api}/get/messages`)
   const res = await req.json()
   return res
 }
 
 async function postCon(data) {
-  const req = await fetch(`${api}:${port}/post/messages`, {
+  const req = await fetch(`${api}/post/messages`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
