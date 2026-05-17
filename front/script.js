@@ -20,7 +20,9 @@ async function postCon(data) {
 
 function displayCon(dataMessages) {
   const messagesSection = document.querySelector('.main_chat')
-  messagesSection.innerHTML = ''
+  while (messagesSection.firstChild) {
+    messagesSection.removeChild(messagesSection.firstChild)
+  }
   dataMessages.forEach((element) => {
     const message_container = document.createElement('div')
     const message_text = document.createElement('p')
@@ -37,13 +39,14 @@ function sendMessage(dataMessages) {
   const sendButton = document.querySelector('.main_chat_send_button')
   const text = document.querySelector('.main_chat_textarea')
   const user = document.querySelector('.main_user_name')
-  sendButton.addEventListener('click', () => {
+  sendButton.addEventListener('click', async () => {
     const data = {
       user: user.value,
       message: text.value,
     }
-    postCon(data)
-    main()
+    await postCon(data)
+    const dataMessaging = await fetchCon()
+    displayCon(dataMessaging)
   })
 }
 
