@@ -1,18 +1,11 @@
-import express from 'express'
-import cors from 'cors'
+import { WebSocketServer } from 'ws'
 
-const app = express()
-const port = 3000
+const wss = new WebSocketServer({ port: 3000 })
 
-app.use(cors())
-app.use(express.json())
+console.log('Websocket server is running')
 
-const dataMessages = []
-
-app.get('/get/messages', (req, res) => {
-  res.json(dataMessages)
-})
-
-app.listen(port, () => {
-  console.log(`Chat app running on http://localhost:${port}`)
+wss.on('connectin', (socket) => {
+  socket.on('message', (message) => {
+    const messageString = message.toString()
+  })
 })
